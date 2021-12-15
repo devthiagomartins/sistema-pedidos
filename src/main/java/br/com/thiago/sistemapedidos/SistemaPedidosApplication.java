@@ -1,5 +1,6 @@
 package br.com.thiago.sistemapedidos;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import br.com.thiago.sistemapedidos.domain.Cidade;
 import br.com.thiago.sistemapedidos.domain.Cliente;
 import br.com.thiago.sistemapedidos.domain.Endereco;
 import br.com.thiago.sistemapedidos.domain.Estado;
+import br.com.thiago.sistemapedidos.domain.Pagamento;
+import br.com.thiago.sistemapedidos.domain.PagamentoComBoleto;
+import br.com.thiago.sistemapedidos.domain.PagamentoComCartao;
+import br.com.thiago.sistemapedidos.domain.Pedido;
 import br.com.thiago.sistemapedidos.domain.Produto;
+import br.com.thiago.sistemapedidos.domain.enums.EstadoPagamento;
 import br.com.thiago.sistemapedidos.domain.enums.TipoCliente;
 import br.com.thiago.sistemapedidos.repositories.CategoriaRepository;
 import br.com.thiago.sistemapedidos.repositories.CidadeRepository;
 import br.com.thiago.sistemapedidos.repositories.ClienteRepository;
 import br.com.thiago.sistemapedidos.repositories.EnderecoRepository;
 import br.com.thiago.sistemapedidos.repositories.EstadoRepository;
+import br.com.thiago.sistemapedidos.repositories.PagamentoRepository;
+import br.com.thiago.sistemapedidos.repositories.PedidoRepository;
 import br.com.thiago.sistemapedidos.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +44,10 @@ public class SistemaPedidosApplication implements CommandLineRunner{
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaPedidosApplication.class, args);
@@ -76,6 +88,23 @@ public class SistemaPedidosApplication implements CommandLineRunner{
 		
 		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
+		
+		
+		
 		
 		
 		
@@ -87,6 +116,9 @@ public class SistemaPedidosApplication implements CommandLineRunner{
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
+		
 	}
 
 }
