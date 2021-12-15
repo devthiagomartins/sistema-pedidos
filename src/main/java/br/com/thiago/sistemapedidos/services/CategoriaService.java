@@ -2,6 +2,7 @@ package br.com.thiago.sistemapedidos.services;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import br.com.thiago.sistemapedidos.domain.Categoria;
 import br.com.thiago.sistemapedidos.repositories.CategoriaRepository;
@@ -33,5 +34,21 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		findById(obj.getId());
 		return categoriaRepository.save(obj);
+	}
+
+
+	public void delete(Integer id) {
+		
+		findById(id);
+		try {
+			
+			categoriaRepository.deleteById(id);
+			
+		} catch (DataIntegrityViolationException e) {
+			
+			throw new DataIntegrityViolationException("Não é possivel excluir a categoria "+ id+"-"+findById(id).getNome()+" pois ela possui produtos.");
+		}
+		
+		
 	}
 }
