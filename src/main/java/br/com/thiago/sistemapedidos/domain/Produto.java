@@ -40,9 +40,12 @@ public class Produto implements Serializable{
 	private List<Categoria> categorias = new ArrayList<>();
 	
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 	
+	
+	@JsonIgnore
 	public List<Pedido> getPedidos(){
 		List<Pedido> lista = new ArrayList<>();
 		for(ItemPedido x : itens) {
