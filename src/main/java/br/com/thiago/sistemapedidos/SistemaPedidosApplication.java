@@ -13,6 +13,7 @@ import br.com.thiago.sistemapedidos.domain.Cidade;
 import br.com.thiago.sistemapedidos.domain.Cliente;
 import br.com.thiago.sistemapedidos.domain.Endereco;
 import br.com.thiago.sistemapedidos.domain.Estado;
+import br.com.thiago.sistemapedidos.domain.ItemPedido;
 import br.com.thiago.sistemapedidos.domain.Pagamento;
 import br.com.thiago.sistemapedidos.domain.PagamentoComBoleto;
 import br.com.thiago.sistemapedidos.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import br.com.thiago.sistemapedidos.repositories.CidadeRepository;
 import br.com.thiago.sistemapedidos.repositories.ClienteRepository;
 import br.com.thiago.sistemapedidos.repositories.EnderecoRepository;
 import br.com.thiago.sistemapedidos.repositories.EstadoRepository;
+import br.com.thiago.sistemapedidos.repositories.ItemPedidoRepository;
 import br.com.thiago.sistemapedidos.repositories.PagamentoRepository;
 import br.com.thiago.sistemapedidos.repositories.PedidoRepository;
 import br.com.thiago.sistemapedidos.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class SistemaPedidosApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaPedidosApplication.class, args);
@@ -103,6 +107,18 @@ public class SistemaPedidosApplication implements CommandLineRunner{
 		
 		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		
 		
 		
 		
@@ -118,6 +134,7 @@ public class SistemaPedidosApplication implements CommandLineRunner{
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 		
 	}
 

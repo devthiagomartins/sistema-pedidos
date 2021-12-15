@@ -2,7 +2,9 @@ package br.com.thiago.sistemapedidos.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -34,6 +37,8 @@ public class Pedido implements Serializable{
 	@JoinColumn(name = "endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
 	
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
 	
 	public Pedido() {
 		
@@ -96,6 +101,16 @@ public class Pedido implements Serializable{
 
 	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 
