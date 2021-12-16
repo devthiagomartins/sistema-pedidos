@@ -2,6 +2,14 @@ package br.com.thiago.sistemapedidos.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import br.com.thiago.sistemapedidos.services.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -10,18 +18,37 @@ public class ClienteNewDTO implements Serializable {
 		
 	}
 	
+	@NotEmpty(message = "Preenchimento do Nome é obrigatório")
+	@Length(min=3, max=120, message = "O tamanho deve ser entre 3 e 120 caracteres")
 	private String nome;
+	
+
+	@NotEmpty(message = "Preenchimento do Email é obrigatório")
+	@Email(message = "Email inválido")
 	private String email;
+	
+	
+	@NotEmpty(message = "Preenchimento do Email é obrigatório")
 	private String cpfOuCnpj;
+	
 	private Integer tipoCliente;
 	
+	@NotEmpty(message = "Preenchimento do Email é obrigatório")
 	private String logradouro;
+	
+	@NotEmpty(message = "Preenchimento do Email é obrigatório")
 	private String numero;
+	
 	private String complemento;
+	
 	private String bairro;
+	
+	@NotEmpty(message = "Preenchimento do Email é obrigatório")
 	private String cep;
 	
+	@NotEmpty(message = "Preenchimento do Email é obrigatório")
 	private String telefone1;
+	
 	private String telefone2;
 	private String telefone3;
 	
