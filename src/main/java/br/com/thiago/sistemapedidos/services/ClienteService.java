@@ -60,7 +60,7 @@ public class ClienteService {
 			
 		} catch (DataIntegrityViolationException e) {
 			
-			throw new DataIntegrityViolationException("Não é possivel excluir a cliente "+ id+"-"+findById(id).getNome()+" pois há entidades relacionadas.");
+			throw new DataIntegrityViolationException("Não é possivel excluir a cliente "+ id+"-"+findById(id).getNome()+" pois há Pedidos relacionados.");
 		}
 		
 		
