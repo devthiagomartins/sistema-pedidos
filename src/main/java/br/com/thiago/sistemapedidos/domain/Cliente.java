@@ -128,10 +128,6 @@ public class Cliente implements Serializable{
 		this.pedidos = pedidos;
 	}
 
-	@JsonIgnore
-	public void setTipoCliente(Integer tipoCliente) {
-		this.tipoCliente = tipoCliente;
-	}
 
 	@Override
 	public int hashCode() {
